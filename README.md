@@ -3,13 +3,13 @@
 ## Create Virtual Environment
 
 ```sh
-python3 -m venv {environmentname}
+python3 -m venv pyenv
 ```
 
 ## Activate Virtual Environment
 
 ```sh
-source {environmentname}/bin/activate
+source pyenv/bin/activate
 ```
 
 ## Create Django project
