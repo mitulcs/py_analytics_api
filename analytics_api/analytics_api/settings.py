@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-x3os0+b)w4__hud)9#j-_@27^*c_7jnzoa1&yy9ax+9!+bq0=(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["0.0.0.0"]
+ALLOWED_HOSTS = ["0.0.0.0", "py-analytics-api.herokuapp.com"]
 
 
 # Application definition
