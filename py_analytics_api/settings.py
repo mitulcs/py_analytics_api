@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-1ow4$3(r5ln#_4baon4b!l6ge4o&&v&@(knezo5(9gljh3km#!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['py-analytics-api.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['py-analytics-api.herokuapp.com', '127.0.0.1', '0.0.0.0']
 
 
 # Application definition
@@ -37,7 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
