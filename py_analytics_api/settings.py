@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import mongoengine
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,10 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1ow4$3(r5ln#_4baon4b!l6ge4o&&v&@(knezo5(9gljh3km#!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['py-analytics-api.herokuapp.com']
-
+ALLOWED_HOSTS = []
+# 'py-analytics-api.herokuapp.com'
 
 # Application definition
 
@@ -37,6 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_mongoengine',
+    'django_mongoengine',
+    'django_mongoengine.mongo_auth',
+    'django_mongoengine.mongo_admin',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -69,17 +77,41 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'py_analytics_api.wsgi.application'
 
-
+MONGOADMIN_OVERRIDE_ADMIN = True
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+MONGODB_DATABASES = {
+    "default": {
+        "name": "project",
+        "host": "localhost",
+        "port": 27017,
+        # "tz_aware": True,  # if you use timezones in django (USE_TZ = True)
+    },
 }
 
+mongoengine.connect(
+    db=MONGODB_DATABASES['default']['name'],
+    host=MONGODB_DATABASES['default']['host']
+)
+
+AUTH_USER_MODEL = 'mongo_auth.MongoUser'
+
+AUTHENTICATION_BACKENDS = (
+    'mongoengine.django.auth.MongoEngineBackend',
+    #'django.contrib.auth.backends.ModelBackend'
+)
+
+DEFAULT_AUTHENTICATION_CLASSES = (
+    'rest_framework.authentication.SessionAuthentication',
+)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -110,7 +142,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

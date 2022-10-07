@@ -1,7 +1,7 @@
-"""py_analytics_api URL Configuration
+"""mongoAPI URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/4.1/topics/http/urls/
+    https://docs.djangoproject.com/en/4.0/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -14,8 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django_mongoengine import mongo_admin
+from rest_framework.routers import DefaultRouter
+from users.views import UserViewSet, CreateSuperUserAPIView
+# from users.views import *
+router = DefaultRouter()
+router.register(r'users', UserViewSet, basename='user')
+# router.register(r'create_superuser', CreateSuperUserAPIView.as_view(), basename='create_superusers')
+# router.add_api_view(r'create_superuser', url(r'^create_superuser/$', CreateSuperUserAPIView.as_view(), name=r"create_superusers"))
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
+    # path('users/', views.article_detail),
+    path('api/', include(router.urls)),
+    path('create_superuser/', CreateSuperUserAPIView.as_view(), name="create_superuser"),
+    path('admin/', mongo_admin.site.urls),
 ]
