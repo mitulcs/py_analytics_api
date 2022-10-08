@@ -31,7 +31,7 @@ class User(Document):
     inherit your User model from it, instead of copy-pasting the following
     200 lines of boilerplate code from mongoengine.django.auth.User.
     """
-    id = fields.IntField(primary_key=True)
+    id = fields.ObjectId()
     username = fields.StringField(required=True)
     email = fields.EmailField()
 

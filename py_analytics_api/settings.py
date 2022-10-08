@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import mongoengine
 import sys
+import pymongo
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,10 +42,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_mongoengine',
-    'django_mongoengine',
+    # 'django_mongoengine',
     'django_mongoengine.mongo_auth',
-    'django_mongoengine.mongo_admin',
+    # 'django_mongoengine.mongo_admin',
     'users',
+    'employee',
 ]
 
 REST_FRAMEWORK = {
@@ -95,19 +97,24 @@ MONGOADMIN_OVERRIDE_ADMIN = True
 
 MONGODB_DATABASES = {
     "default": {
-        "name": "project",
+        "name": "HotalDb20201126",
         "host": "localhost",
         "port": 27017,
         # "tz_aware": True,  # if you use timezones in django (USE_TZ = True)
     },
 }
 
+client = pymongo.MongoClient(host=MONGODB_DATABASES['default']['host'],port= MONGODB_DATABASES['default']['port'])
+# db = client[MONGODB_DATABASES['default']['name']]
+# print(client)
 mongoengine.connect(
     db=MONGODB_DATABASES['default']['name'],
     host=MONGODB_DATABASES['default']['host']
 )
 
 AUTH_USER_MODEL = 'mongo_auth.MongoUser'
+
+
 
 AUTHENTICATION_BACKENDS = (
     'mongoengine.django.auth.MongoEngineBackend',

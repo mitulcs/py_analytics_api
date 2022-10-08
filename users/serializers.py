@@ -38,7 +38,7 @@ class AuthTokenSerializer(serializers.Serializer):
 
 
 class UserSerializer(DocumentSerializer):
-    id = serializers.IntegerField(read_only=False)
+    # id = serializers.IntegerField(read_only=False)
 
     class Meta:
         model = User

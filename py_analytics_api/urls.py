@@ -15,12 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django_mongoengine import mongo_admin
+from django_mongoengine import mongo_admin, mongo_auth
 from rest_framework.routers import DefaultRouter
+from employee.views import KoddiApiView, KoddiFilesViewSet
 from users.views import UserViewSet, CreateSuperUserAPIView
 # from users.views import *
 router = DefaultRouter()
 router.register(r'users', UserViewSet, basename='user')
+# router.register(r'employee', EmployeeViewSet, basename='user')
+router.register(r'koddiFiles', KoddiFilesViewSet, basename='koddiFilesViewSet')
 # router.register(r'create_superuser', CreateSuperUserAPIView.as_view(), basename='create_superusers')
 # router.add_api_view(r'create_superuser', url(r'^create_superuser/$', CreateSuperUserAPIView.as_view(), name=r"create_superusers"))
 
@@ -29,5 +32,7 @@ urlpatterns = [
     # path('users/', views.article_detail),
     path('api/', include(router.urls)),
     path('create_superuser/', CreateSuperUserAPIView.as_view(), name="create_superuser"),
-    path('admin/', mongo_admin.site.urls),
+    path('koddiFiles/', KoddiApiView.as_view()),
+    # path('mongoauth', mongo_auth)
+    # path('admin/', mongo_admin.site.urls),
 ]
