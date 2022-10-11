@@ -24,19 +24,15 @@ class KddiAdvertiserReportsViewSet(viewsets.ViewSet, CustomPagination):
         properties = request.query_params['properties']
         listOfProperties = [int(item)
                             for item in properties.split(',') if item.isdigit()]
-        # propertyId__in=listOfProperties,
-# {ReportDate: { $elemMatch: { $gte: 636503616000000000, $lte: 636525216000000000}}}
-        # queryset = KddiAdvertiserReports.objects.filter( reportDate__match={'reportDate__gte': '636503616000000000', 'reportDate__lte': 636525216000000000}
-        #     )
-        queryset = KddiAdvertiserReports.objects.filter(propertyId__in=listOfProperties)
-# reportDate__gte=636503616000000000, reportDate__lte=636525216000000000
+
+        queryset = KddiAdvertiserReports.objects(__raw__={"$and": [{"ReportDate": { "$elemMatch": { "$gte": 636503616000000000, "$lte": 637787520000000000}}}, {"PropertyId":{"$in" : listOfProperties}}]})
+
         page = self.paginate_queryset(queryset, request)
         if page is not None:
             serializer = KddiAdvertiserReportsSerializer(page, many=True)
             return self.get_paginated_response(serializer.data)
 
         serializer = KddiAdvertiserReportsSerializer(queryset, many=True)
-        # print(serializer.data)
         return Response(OrderedDict([
             ('count', len(serializer.data)),
             ('next', None),
