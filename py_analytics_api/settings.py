@@ -103,13 +103,14 @@ MONGODB_DATABASES = {
     },
 }
 
-client = pymongo.MongoClient(host=MONGODB_DATABASES['default']['host'],port= MONGODB_DATABASES['default']['port'])
+# client = pymongo.MongoClient(host=MONGODB_DATABASES['default']['host'],port= MONGODB_DATABASES['default']['port'])
 # db = client[MONGODB_DATABASES['default']['name']]
 # print(client)
 mongoengine.connect(
     db=MONGODB_DATABASES['default']['name'],
     host=MONGODB_DATABASES['default']['host']
 )
+# mongoengine.connect("mongodb://localhost:27017/HotalDb20201126")
 
 AUTH_USER_MODEL = 'mongo_auth.MongoUser'
 
