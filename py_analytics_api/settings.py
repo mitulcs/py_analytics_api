@@ -103,7 +103,7 @@ MONGODB_DATABASES = {
     },
 }
 
-client = pymongo.MongoClient(host=MONGODB_DATABASES['default']['host'],port= MONGODB_DATABASES['default']['port'])
+# client = pymongo.MongoClient(host=MONGODB_DATABASES['default']['host'],port= MONGODB_DATABASES['default']['port'])
 # db = client[MONGODB_DATABASES['default']['name']]
 # print(client)
 mongoengine.connect(
