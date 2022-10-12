@@ -11,6 +11,8 @@ class KddiAdvertiserReportsSerializer(DocumentSerializer):
 
     def to_representation(self, instance):
         data = super(DocumentSerializer, self).to_representation(instance)
+        data['spend'] = float(data['spend'])
+        data['revenue'] = float(data['revenue'])
         if (isinstance(data.get('modifiedOn'), list)):
             data['modifiedOn'] = convert_dotnet_tick(
                 int(data.get('modifiedOn')[0]))
