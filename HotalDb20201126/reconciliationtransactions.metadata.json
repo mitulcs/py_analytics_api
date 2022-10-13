@@ -1,1 +1,0 @@
-{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"b5f3d99374674c51ba8cb48f0f9178b7","collectionName":"reconciliationtransactions","type":"collection"}
