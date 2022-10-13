@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"9c54dfb211ce40c1ae0a4eef67a4065f","collectionName":"StarReportSegmentationDailys","type":"collection"}
