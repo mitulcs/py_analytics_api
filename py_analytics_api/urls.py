@@ -19,22 +19,23 @@ from users.views import UserViewSet, CreateSuperUserAPIView
 from koddiadvertiserreports.views import KddiAdvertiserReportsViewSet
 
 # from users.views import *
-router = DefaultRouter()
-router.register(r'users', UserViewSet, basename='user')
+# router = DefaultRouter()
+# router.register(r'users', UserViewSet, basename='user')
 # router.register(r'employee', EmployeeViewSet, basename='user')
 # router.register(r'koddiFiles', KoddiFilesViewSet, basename='koddiFilesViewSet')
-router.register(r'kddiAdvertiserReports',
-                KddiAdvertiserReportsViewSet, basename='KddiAdvertiserReports')
+# router.register(r'kddiAdvertiserReports',
+#                 KddiAdvertiserReportsViewSet, basename='KddiAdvertiserReports')
 # router.register(r'create_superuser', CreateSuperUserAPIView.as_view(), basename='create_superusers')
 # router.add_api_view(r'create_superuser', url(r'^create_superuser/$', CreateSuperUserAPIView.as_view(), name=r"create_superusers"))
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
     # path('users/', views.article_detail),
-    path('api/', include(router.urls)),
+    # path('api/', include(router.urls)),
     path('create_superuser/', CreateSuperUserAPIView.as_view(), name="create_superuser"),
     # path('koddiFiles/', KoddiApiView.as_view()),
     path('', include('koddiadvertiserreports.urls')),
+    path('', include('excelParse.urls')),
     # path('mongoauth', mongo_auth)
     # path('admin/', mongo_admin.site.urls),
 ]

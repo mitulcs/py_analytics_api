@@ -18,7 +18,7 @@ import pymongo
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+MAIN_DIR = Path(__file__).resolve().parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1ow4$3(r5ln#_4baon4b!l6ge4o&&v&@(knezo5(9gljh3km#!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['cschat.confidosoft.in', '127.0.0.1']
 # 'py-analytics-api.herokuapp.com'
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "corsheaders",
     # 'django_mongoengine.mongo_admin',
     'koddiadvertiserreports',
+    'excelParse',
 ]
 
 REST_FRAMEWORK = {
@@ -110,7 +111,7 @@ MONGODB_DATABASES = {
     },
 }
 
-# client = pymongo.MongoClient(host=MONGODB_DATABASES['default']['host'],port= MONGODB_DATABASES['default']['port'])
+client = pymongo.MongoClient(host=MONGODB_DATABASES['default']['host'],port= MONGODB_DATABASES['default']['port'])
 # db = client[MONGODB_DATABASES['default']['name']]
 # print(client)
 mongoengine.connect(
