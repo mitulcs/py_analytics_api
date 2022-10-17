@@ -13,6 +13,7 @@ from py_analytics_api import ticks
 import datetime
 from bson import json_util, ObjectId
 import requests
+import numpy as np
 
 
 class CustomEncoder(json.JSONEncoder):
@@ -67,7 +68,7 @@ def getSetOnInsertData(value, df_column, mcprFileId, propertyId, isFind, sheetTy
     dic['YtdYear'] = date.year
     dic['SheetType'] = int(sheetType)
     dic['status'] = 2
-    dic['PropertyId'] = propertyId
+    dic['PropertyId'] = int(propertyId)
     dic['ChannelType'] = 0
     dic['Name'] = dic['Channel']
     dic['MTDRevenue'] = str(dic['Revenue'])
@@ -157,7 +158,7 @@ class ExcelParseViewSet(viewsets.ViewSet):
                              for i, d in enumerate(df_column)]
 
                 collection = settings.client[settings.MONGODB_DATABASES['default']
-                                             ['name']].mongoTest
+                                             ['name']].mcprDetails
                 listOfObject = []
                 for index, value in enumerate(df_list):
                     isExist = [
