@@ -26,9 +26,9 @@ MAIN_DIR = Path(__file__).resolve().parent
 SECRET_KEY = 'django-insecure-1ow4$3(r5ln#_4baon4b!l6ge4o&&v&@(knezo5(9gljh3km#!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['cschat.confidosoft.in', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 # 'py-analytics-api.herokuapp.com'
 
 # Application definition
