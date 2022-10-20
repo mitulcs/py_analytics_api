@@ -14,19 +14,7 @@ import datetime
 from bson import json_util, ObjectId
 import requests
 import numpy as np
-
-
-class CustomEncoder(json.JSONEncoder):
-    """A C{json.JSONEncoder} subclass to encode documents that have fields of
-    type C{bson.objectid.ObjectId}, C{datetime.datetime}
-    """
-
-    def default(self, obj):
-        if isinstance(obj, ObjectId):
-            return str(obj)
-        elif isinstance(obj, datetime.datetime):
-            return obj.isoformat()
-        return json.JSONEncoder.default(self, obj)
+from py_analytics_api.utils import CustomEncoder
 
 
 def removeSpace(string):
@@ -35,16 +23,6 @@ def removeSpace(string):
 
 def filter_existing_obj(object, listArray):
     return True if object in listArray else False
-
-
-def getSearchData(value, df_column):
-    dic = {}
-    for index, key in enumerate(df_column):
-        if (isinstance(value[index], int)):
-            dic[str(key)] = float(value[index])
-        else:
-            dic[str(key)] = value[index]
-    return dic
 
 
 def getSetOnInsertData(value, df_column, mcprFileId, propertyId, isFind, sheetType):

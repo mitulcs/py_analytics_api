@@ -18,8 +18,12 @@ def convert_dotnet_tick(ticks):
 
 
 def date_to_dotnet_tick(dt):
-    date = datetime.datetime.strptime(dt, "%Y-%m-%d")
-    tick = (date - datetime.datetime(1, 1, 1)).total_seconds() * 10000000
+    if isinstance(dt, datetime.date):
+        # date = datetime.datetime.strptime(dt, "%Y-%m-%d %H:%M:%S")
+        tick = (dt - datetime.datetime(1, 1, 1)).total_seconds() * 10000000
+    else:
+        date = datetime.datetime.strptime(dt, "%Y-%m-%d")
+        tick = (date - datetime.datetime(1, 1, 1)).total_seconds() * 10000000
     return int(tick)
 
 # def stringToDateTime(date):
