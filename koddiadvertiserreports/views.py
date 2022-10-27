@@ -18,6 +18,19 @@ from py_analytics_api.utils import getMonthEndDate, getYearEndDate
 from py_analytics_api.enums import EnumPaidMediaScreenType, EnumDurationType
 
 
+def getDataByMediaChannel(prop, mediaChannel):
+    listData = []
+    for value in mediaChannel:
+        reportMap = dict()
+        reportMap['mediaChannel'] = value
+        listMediaChannelData = filter(
+            lambda element:
+            element['mediaChannel'] == value, prop)
+        reportMap['channelData'] = list(listMediaChannelData)
+        listData.append(reportMap)
+    return listData
+
+
 class KddiAdvertiserReportsViewSet(viewsets.ViewSet, CustomPagination):
     model = KddiAdvertiserReports
     serializer_class = KddiAdvertiserReportsSerializer
@@ -29,9 +42,6 @@ class KddiAdvertiserReportsViewSet(viewsets.ViewSet, CustomPagination):
         properties = request.query_params['properties']
         listOfProperties = [int(item)
                             for item in properties.split(',') if item.isdigit()]
-
-        # print('StartDate:', date_to_dotnet_tick(startDate),
-        #       'EndDate:', date_to_dotnet_tick(endDate))
 
         queryset = KddiAdvertiserReports.objects(__raw__={"$and": [{"ReportDate": {"$elemMatch": {"$gte": date_to_dotnet_tick(
             startDate), "$lte": date_to_dotnet_tick(endDate)}}}, {"PropertyId": {"$in": listOfProperties}}]})
@@ -63,9 +73,6 @@ class KddiAdvertiserReportsViewSet(viewsets.ViewSet, CustomPagination):
             ('results', listData)
         ]), status=status.HTTP_200_OK)
 
-    # def get_queryset(self):
-    #     return KddiAdvertiserReports.objects.all()
-
 
 class KddiAdvertiserMediaChannelViewSet(viewsets.ViewSet):
     model = KddiAdvertiserReports
@@ -77,7 +84,21 @@ class KddiAdvertiserMediaChannelViewSet(viewsets.ViewSet):
         endDate = request.query_params['endDate']
         type = request.query_params.get('type')
         durationType = request.query_params.get('durationType')
-        mediaChannel = ['Google Hotel Ads', 'TripAdvisor', 'Kayak', 'Trivago']
+        if (int(type) == EnumPaidMediaScreenType.MetaSearchDashboard.value) or int(type) == EnumPaidMediaScreenType.MetaSearch.value:
+            mediaChannel = ['Google Hotel Ads',
+                            'TripAdvisor', 'Kayak', 'Trivago']
+        elif (int(type) == EnumPaidMediaScreenType.SponsoredList.value) or int(type) == EnumPaidMediaScreenType.SponsoredListingDashboard.value:
+            mediaChannel = ['TripAdvisor Sponsored Placements',
+                            'Google Property Promotion Ads',
+                            'Kayak Sponsored Listing']
+        elif (int(type) == EnumPaidMediaScreenType.ExpediaTravelAds.value) or int(type) == EnumPaidMediaScreenType.ExpediaTravelAdsDashboard.value:
+            mediaChannel = ['TripAdvisor Sponsored Placements',
+                            'Google Property Promotion Ads',
+                            'Kayak Sponsored Listing']
+        elif (int(type) == EnumPaidMediaScreenType.PaidSearch.value) or int(type) == EnumPaidMediaScreenType.PaidSearchDashboard.value:
+            mediaChannel = ['Google SEM']
+        elif (int(type) == EnumPaidMediaScreenType.OTA.value) or int(type) == EnumPaidMediaScreenType.OTADashboard.value:
+            mediaChannel = ['Expedia TravelAds', 'Booking.com', 'Priceline']
 
         listOfProperties = [int(item)
                             for item in properties.split(',') if item.isdigit()]
@@ -113,7 +134,7 @@ class KddiAdvertiserMediaChannelViewSet(viewsets.ViewSet):
         propertyGroups = groupby(
             json_object, lambda content: content['propertyId'])
 
-        if int(type) == EnumPaidMediaScreenType.MetaSearchDashboard.value:
+        if int(type) == EnumPaidMediaScreenType.MetaSearchDashboard.value or int(type) == EnumPaidMediaScreenType.SponsoredListingDashboard.value or int(type) == EnumPaidMediaScreenType.ExpediaTravelAdsDashboard.value or int(type) == EnumPaidMediaScreenType.PaidSearchDashboard.value or int(type) == EnumPaidMediaScreenType.OTADashboard.value:
             listData = []
             for propertyId, propertyData in propertyGroups:
                 values = list(propertyData)
@@ -140,27 +161,3 @@ class KddiAdvertiserMediaChannelViewSet(viewsets.ViewSet):
         return Response(OrderedDict([
             ('results', listData)
         ]), status=status.HTTP_200_OK)
-
-
-def getDataByMediaChannel(prop, mediaChannel):
-    listData = []
-    for value in mediaChannel:
-        reportMap = dict()
-        reportMap['mediaChannel'] = value
-        listMediaChannelData = filter(
-            lambda element:
-            element['mediaChannel'] == value, prop)
-        reportMap['channelData'] = list(listMediaChannelData)
-        listData.append(reportMap)
-    return listData
-    # prop.sort(key=lambda content: content['mediaChannel'])
-    # reportDateGroups = groupby(
-    #     prop, lambda content: content['mediaChannel'])
-    # listData = []
-    # for reportDate, v in reportDateGroups:
-    #     reportMap = dict()
-    #     val = list(v)
-    #     reportMap['mediaChannel'] = reportDate
-    #     reportMap['channelData'] = val
-    #     listData.append(reportMap)
-    # return listData
